@@ -38,7 +38,7 @@ public class UzSearchRestService {
     }
 
     public UzSearchResult getUzSearchResults() {
-        log.info("Sending request to {} with body", searchUrl, getRequestBody());
+        log.info("Sending request to {} with body {}", searchUrl, getRequestBody());
         ResponseEntity<UzSearchResult> searchResult = restTemplate.exchange(searchUrl, HttpMethod.POST,
                 new HttpEntity<>(getRequestBody(), getHeaders()), UzSearchResult.class);
         return searchResult.getBody();
