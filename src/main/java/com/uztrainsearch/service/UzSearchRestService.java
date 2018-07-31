@@ -1,6 +1,8 @@
 package com.uztrainsearch.service;
 
 import com.uztrainsearch.model.UzSearchResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class UzSearchRestService {
+
+    private static final Logger log = LoggerFactory.getLogger(UzSearchRestService.class);
 
     @Value("${uz.train.search.station.from}")
     private String from;
@@ -34,6 +38,7 @@ public class UzSearchRestService {
     }
 
     public UzSearchResult getUzSearchResults() {
+        log.info("Sending request to {} with body", searchUrl, getRequestBody());
         ResponseEntity<UzSearchResult> searchResult = restTemplate.exchange(searchUrl, HttpMethod.POST,
                 new HttpEntity<>(getRequestBody(), getHeaders()), UzSearchResult.class);
         return searchResult.getBody();

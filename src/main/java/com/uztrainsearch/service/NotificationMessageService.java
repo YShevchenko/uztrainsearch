@@ -3,6 +3,8 @@ package com.uztrainsearch.service;
 import com.uztrainsearch.model.UzSearchResult;
 import com.uztrainsearch.model.searchresult.UzSearchEntry;
 import com.uztrainsearch.model.searchresult.UzSearchPlaceType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class NotificationMessageService {
+
+    private static final Logger log = LoggerFactory.getLogger(NotificationMessageService.class);
 
     private RestTemplate restTemplate;
 
@@ -29,6 +33,7 @@ public class NotificationMessageService {
     }
 
     public void sendTicketsFoundNotification(UzSearchResult result) {
+        log.info("Sending notification to Telegram using url {} and body {}", telegramSendMessageUrl, getRequestBody(result));
         restTemplate.exchange(telegramSendMessageUrl, HttpMethod.POST, new HttpEntity<>(getRequestBody(result), getHeaders()),
                 String.class, botToken);
     }
