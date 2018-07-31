@@ -20,13 +20,11 @@ public class ScheduledTrainSearch {
         this.messageService = messageService;
     }
 
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(fixedRate = 90000)
     public void reportCurrentTime() {
         UzSearchResult result = searchRestService.getUzSearchResults();
         if (!result.getData().getList().isEmpty()) {
             messageService.sendTicketsFoundNotification(result);
-        } else {
-            log.info("No results found");
         }
         log.info("{} results found", result.getData().getList().size());
     }
